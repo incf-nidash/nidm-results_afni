@@ -9,8 +9,10 @@ specification.
 import re
 import os
 import glob
+import subprocess
 import numpy as np
 from nidmresults.exporter import NIDMExporter
+from nidmresults.objects.constants import AFNI
 import objects.afni_objects as afniobjs
 
 class AFNItoNIDMExporter(NIDMExporter, object):
@@ -57,6 +59,10 @@ class AFNItoNIDMExporter(NIDMExporter, object):
         # rcr - ponder
         # design_file_open = open(self.design_file, 'r')
         # self.design_txt = design_file_open.read()
+
+        # Object of type Software describing the neuroimaging software package
+        # used for the analysis
+        self.software = self._find_software()
         
 
         # Retreive coordinate space used for current analysis
@@ -69,18 +75,17 @@ class AFNItoNIDMExporter(NIDMExporter, object):
         """ 
         Overload of parent _add_namespaces to add AFNI namespace.
         """
-        # super(AFNItoNIDMExporter, self).__init__()
-        # self.doc.add_namespace(AFNI)
+        self.doc.add_namespace(AFNI)
 
     def _find_software(self):
         """ 
         Return an object of type Software describing the version of AFNI used to
         compute the current analysis.
         """
-        #version_re = r'.*set fmri\(version\) (?P<info>\d+\.?\d+).*'
-        #afni_version = self._search_in_fsf(version_re)
-
-        version = os.system("afni -ver")   # get a string
+        # FIXME: Do we want to keep the full output of version, e.g. 
+        # Precompiled binary macosx_10.7_Intel_64: Sep 25 2014 (Version 
+        # AFNI_2011_12_21_1014)
+        version = subprocess.check_output("afni -ver", shell=True)
         software = afniobjs.Software(version=version)
 
         return software

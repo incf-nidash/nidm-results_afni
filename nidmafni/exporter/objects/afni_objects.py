@@ -12,6 +12,7 @@ import uuid
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
+
 class Software(NIDMObject):
     # FIXME software should be generic and then overloaded
 
@@ -23,6 +24,8 @@ class Software(NIDMObject):
         super(Software, self).__init__()
         self.version = version
         self.name = "AFNI"
+        self.type = NLX_AFNI
+        self.prov_type = PROV['Agent']
         self.id = NIIRI[str(uuid.uuid4())]
         # Retreive AFNI version from afni -ver
 
@@ -30,10 +33,10 @@ class Software(NIDMObject):
         """
         Create prov entities and activities.
         """
-        self.p.agent(self.id, 
-            other_attributes=((PROV['type'], NIDM[self.name]), 
-                            (PROV['type'], PROV['SoftwareAgent']),
-                            (PROV['label'],self.name),
-                            (NIDM['softwareVersion'],self.version)))
+        self.add_attributes((
+            (PROV['type'], NLX_FSL),
+            (PROV['type'], PROV['SoftwareAgent']),
+            (PROV['label'], self.name),
+            (NIDM_SOFTWARE_VERSION, self.version)))
 
         return self.p
