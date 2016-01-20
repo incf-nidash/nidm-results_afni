@@ -4,8 +4,8 @@ AFNI-specific classes and classes overloaded to add AFNI-specific attributes.
 @author: Rick Reynolds/Camille Maumet
 @copyright:
 """
-from exporter.objects.generic import NIDMObject
-from exporter.objects.constants import *
+from nidmresults.objects.generic import NIDMObject
+from nidmresults.objects.constants import *
 import logging
 import uuid
 

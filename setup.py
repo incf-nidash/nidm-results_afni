@@ -2,23 +2,19 @@ from setuptools import setup, find_packages
 
 readme = open('README.md').read()
 
-requirements = [
-    'prov',
-    'nibabel',
-    'numpy',
-    'nidmresults'    
-]
+reqs = [line.strip() for line in open('requirements.txt').readlines()]
+requirements = list(filter(None, reqs))
 
 setup(
-    name = "nidmafni",
-    version = "0.1.0",
-    author = "Camille Maumet, Rick Reynolds",
-    author_email = "c.m.j.maumet@warwick.ac.uk",
-    description = ("Export of AFNI statistical results using NIDM"
-        " as specified at http://nidm.nidash.org/specs/nidm-results.html."),
+    name="nidmafni",
+    version="0.1.0",
+    author="Camille Maumet, Rick Reynolds",
+    author_email="c.m.j.maumet@warwick.ac.uk",
+    description=("Export of AFNI statistical results using NIDM\
+ as specified at http://nidm.nidash.org/specs/nidm-results.html."),
     license = "BSD",
     keywords = "Prov, NIDM, Provenance",
-    scripts=['bin/nidm-results_afni'],
+    scripts=['bin/nidmafni'],
     # packages=['nidmfsl', 'test'],
     packages=find_packages(),
     package_dir={
@@ -30,4 +26,5 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
     ],
+    install_requires=requirements
 )

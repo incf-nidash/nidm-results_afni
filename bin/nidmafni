@@ -1,0 +1,32 @@
+#!/usr/bin/python
+"""
+Export neuroimaging results created with afni feat following NIDM-Results
+specification. The path to feat directory must be passed as first argument.
+
+@author: Camille Maumet <c.m.j.maumet@warwick.ac.uk>
+@copyright: University of Warwick 2013-2014
+"""
+
+import os
+from nidmafni.exporter.exporter import AFNItoNIDMExporter
+import argparse
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='NIDM-Results exporter for afni.')
+    parser.add_argument('dataset', help='Path to output dataset.')
+
+    args = parser.parse_args()
+
+    dataset = args.dataset
+    print dataset
+    if not os.path.isfile(dataset):
+        raise Exception("Unknown file: "+str(dataset))
+
+    afninidm = AFNItoNIDMExporter(
+        version="1.1.0",
+        dataset=dataset, csim_dset=None)
+    afninidm.parse()
+    export_dir = afninidm.export()
+
+    print 'NIDM export available at: '+str(export_dir)

@@ -10,11 +10,7 @@ import re
 import os
 import glob
 import numpy as np
-from exporter.exporter import NIDMExporter
-from exporter.objects.constants import *
-from exporter.objects.modelfitting import *
-from exporter.objects.contrast import *
-from exporter.objects.inference import *
+from nidmresults.exporter import NIDMExporter
 import objects.afni_objects as afniobjs
 
 class AFNItoNIDMExporter(NIDMExporter, object):
@@ -23,12 +19,14 @@ class AFNItoNIDMExporter(NIDMExporter, object):
     stored in NIDM-Results and generate a NIDM-Results export.
     """
 
-    def __init__(self, dset, csim_dset, p_uncor=0.01, p_cor=0.05,
-                 nidm_ver="0.2.0"):
-        self.stat_dset = dset
+    def __init__(self, dataset, csim_dset, p_uncor=0.01, p_cor=0.05,
+                 version="0.2.0"):
+        super(AFNItoNIDMExporter, self).__init__()
+        self.stat_dset = dataset
         self.clust_dset = csim_dset
         self.p_uncor = p_uncor
         self.p_cor = p_cor
+        self.version = version
 
         self.ind_contr = 0
         self.ind_stat  = 1
@@ -62,8 +60,8 @@ class AFNItoNIDMExporter(NIDMExporter, object):
         
 
         # Retreive coordinate space used for current analysis
-        if not self.coordinate_system:
-            self._get_coordinate_system()
+        # if not self.coordinate_system:
+        #     self._get_coordinate_system()
 
         super(AFNItoNIDMExporter, self).parse()
 
@@ -71,8 +69,8 @@ class AFNItoNIDMExporter(NIDMExporter, object):
         """ 
         Overload of parent _add_namespaces to add AFNI namespace.
         """
-        super(AFNItoNIDMExporter, self).__init__()
-        self.doc.add_namespace(AFNI)
+        # super(AFNItoNIDMExporter, self).__init__()
+        # self.doc.add_namespace(AFNI)
 
     def _find_software(self):
         """ 
@@ -106,7 +104,7 @@ class AFNItoNIDMExporter(NIDMExporter, object):
         # model_fitting = ModelFitting(activity, design_matrix, data, 
         #     error_model, param_estimates, rms_map, mask_map, grand_mean_map)
 
-        return list()
+        return dict()
 
     def _find_contrasts(self):
         """ 
