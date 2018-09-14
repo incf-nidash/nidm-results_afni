@@ -9,7 +9,7 @@ specification. The path to feat directory must be passed as first argument.
 
 import sys
 import os
-from nidmfsl.fsl_exporter.fsl_exporter import FSLtoNIDMExporter
+from afni_exporter.afni_exporter import AFNItoNIDMExporter
 
 if __name__ == "__main__":
     # Remove first argument (script name)
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     sys.argv.pop(0)
     args = sys.argv
 
-    usage = "Usage: python nidm-results_fsl.py path/to/feat/dir"
+    usage = "Usage: nidmafni path/to/feat/dir"
 
     if num_args != 1:
         raise Exception(usage)
